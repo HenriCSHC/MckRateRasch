@@ -1,0 +1,23 @@
+{
+  "name": "MckRateRasch",
+  "version": "1.0.0",
+  "description": "Attempt to recreate the Rate Fix card game as online game",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HenriCSHC/MckRateRasch.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/HenriCSHC/MckRateRasch/issues"
+  },
+  "homepage": "https://github.com/HenriCSHC/MckRateRasch#readme",
+  "dependencies": {
+    "ws": "^7.4.3"
+  }
+}
