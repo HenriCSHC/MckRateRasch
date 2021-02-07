@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "outDir": "./build",
+        "module": "es6",
+        "target": "ES2015"
+    },
+    "include": ["./src_app/**/*"]
+}

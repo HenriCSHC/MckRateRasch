@@ -6,14 +6,33 @@
 	let host = undefined;
 	let wsUri = "";
 
-	function InputChange(_evt) {
-		console.log(_evt.target.value);
+	let newRoomName = "";
+	let roomReady = false;
+	let roomData = undefined;
+
+	function CreateRoom(_evt) {
+		let _msg = {
+			section: "room",
+			type: "enter",
+			data: newRoomName
+		};
+		socket.send(JSON.stringify(_msg));
 	}
 
 	function RecvMsg(_evt) {
+		let _msg = _evt.data;
 		console.log(`New message ${_evt.data}`);
 
-		socket.send("Hello Backend!");
+		//socket.send("Hello Backend!");
+
+		switch (_msg.section) {
+			case "room":
+				if (_msg.type === "data") {
+					roomData = _msg.data;
+					roomReady = true;
+				}
+			break;
+		}
 	}
 
 	onMount(() => {
@@ -27,8 +46,12 @@
 
 <main>
 	<h1>MckRateRasch</h1>
-	<input on:change={InputChange}/>
-	<button>Erstelle Raum</button>
+	{#if roomReady}
+		<input on:change={_e => {
+			newRoomName = _e.target.value;
+		}}/>
+		<button on:click={CreateRoom}>Erstelle Raum</button>
+	{/if}
 </main>
 
 <style>

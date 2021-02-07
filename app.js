@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const http = require('http');
 const WebSocket = require('ws');
+const { v4: uuidv4 } = require('uuid');
 
 const host = 'localhost';
 const port = 8008;
@@ -28,14 +29,28 @@ const requestListener = (_req, _res) => {
 const server = http.createServer(requestListener);
 const wss = new WebSocket.Server({ server });
 
+let sockets = {};
+let rooms = {};
+
 wss.on('connection', _socket => {
-    console.log('New Connection from' + _socket);
+    let _id = uuidv4();
+    sockets[_id] = {
+        socket: _socket,
+        room: ""
+    };
 
     _socket.on('message', _msg => {
-        console.log(`New msg ${_msg}`)
+        console.log(`New msg from ${_id}: ${_msg}`)
+    });
+
+    _socket.on('close', () => {
+        console.log(`Socket ${_id} was closed!`);
+        delete sockets[_id];
     });
 
     _socket.send("Hello Frontend!");
+
+    console.log(`New Socket ${_id}`);
 });
 
 server.listen(port, host, () => {
