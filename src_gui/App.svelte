@@ -20,7 +20,13 @@
 	}
 
 	function RecvMsg(_evt) {
-		let _msg = _evt.data;
+		let _msg = undefined;
+		try {
+			_msg = JSON.parse(_evt.data);
+		} catch (_err) {
+			console.log("MSG Error: " + _err);
+			return;
+		}
 		console.log(`New message ${_evt.data}`);
 
 		//socket.send("Hello Backend!");
@@ -47,6 +53,10 @@
 <main>
 	<h1>MckRateRasch</h1>
 	{#if roomReady}
+		<span>Raum:</span>
+		<span>{roomData.name}</span>
+		<p>Spieler:</p>
+	{:else}
 		<input on:change={_e => {
 			newRoomName = _e.target.value;
 		}}/>

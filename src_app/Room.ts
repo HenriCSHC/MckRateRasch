@@ -17,7 +17,7 @@ const { v4: uuidv4 } = require('uuid');
 class Room {
     id: string;
     name: string;
-    private users: Map<string, User>;
+    users: Map<string, User>;
 
 
     constructor() {

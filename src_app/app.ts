@@ -46,7 +46,7 @@ function AddSocket(_socket: any): string {
 
 function EnterRoom(roomName: string, socketId: string): void {
     let _id: string | undefined = undefined;
-    Object.entries(this.rooms).forEach((_r: [string, Room]) => {
+    Object.entries(rooms).forEach((_r: [string, Room]) => {
         if (_r[1].name === roomName)
         {
             _id = _r[0];
@@ -55,16 +55,16 @@ function EnterRoom(roomName: string, socketId: string): void {
 
     if (_id === undefined) {
         _id = uuidv4();
-        this.rooms[_id] = new Room();
-        this.rooms[_id].name = roomName;
+        rooms[_id] = new Room();
+        rooms[_id].name = roomName;
     }
 
     let _msg = new WsMsg();
-    _msg.section = "data";
+    _msg.type = "data";
     _msg.section = "room";
-    _msg.data = this.rooms[_id];
+    _msg.data = rooms[_id];
 
-    this.sockets[socketId].send(_msg);
+    sockets[socketId].socket.send(JSON.stringify(_msg));
 }
 
 wss.on('connection', _socket => {
